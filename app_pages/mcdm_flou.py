@@ -98,8 +98,11 @@ if vue == "Score flou d'une alternative":
     if not np.isclose(table["Poids"].sum(), 1, atol=1e-3):
         stop_si_erreur(f"La somme des poids doit valoir 1 (elle vaut {table['Poids'].sum():.3f}).")
     res = executer(mf.score_flou, table[["a", "b", "c"]].to_numpy(dtype=float), table["Poids"].to_numpy(dtype=float), table["c max"].to_numpy(dtype=float))
-    a, b, c = st.columns(3)
-    a.metric("Score agrégé S̃", f"({res['agrege'][0]:.2f} ; {res['agrege'][1]:.2f} ; {res['agrege'][2]:.2f})")
+    st.metric(
+        "Score agrégé S̃ = (a ; b ; c)",
+        f"({res['agrege'][0]:.3f} ; {res['agrege'][1]:.3f} ; {res['agrege'][2]:.3f})",
+    )
+    b, c = st.columns(2)
     b.metric("Score défuzzifié S", f"{res['score']:.3f}", help="Centre de gravité (a + b + c) / 3.")
     c.metric("Incertitude c − a", f"{res['incertitude']:.3f}", help="À surveiller en plus du score.")
     st.markdown("Matrice normalisée :")
